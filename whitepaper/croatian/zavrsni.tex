@@ -45,10 +45,34 @@ Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje komandne linije,
 činjenica da se izvodi kao zaseban proces (server) sto zahtijeva od korisnika
 da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
+\section{pdftabextract}
+
+pdftabextract je rješenje otvorenog koda napisano u programskom jeziku Python.
+Nudi isključivo sučelje komandne linije i ne može direktno obrađivati PDF
+datoteke, već ih je prethodno potrebno konvertirati u pdf2xml format.
+
+Korištenje programskog alata pdf2xml omogućava ovom rješenju reparaciju
+podataka prije nego li ih krenemo obrađivati. Moguće reparacije su rotacija
+stranice, ispravka iskrivljene slike i razdvajanje dvostrukih stranica. Ovaj
+korak je iznimno bitan kako rješenje ne konzumira strukturirane podatke već
+pokušava otkriti grupe podataka koje su vizualno organizirane u redove i
+stupce, te ih organizirati u CSV datoteku.
+
+Takav pristup obradi PDF datoteka omogućava pdftabextractu rad s dokumentima
+koji su bili konvertirani iz slike u text, te dokumente koji nemaju strogo
+definiran tablični format. Međutim nedostatak ovakvog pristupa je nepouzdanost.
+CSV datoteke, koje ovo rješenje vraća kao rezultat, često izgledaju ne
+strukturirano i potrebno je ručno sanitizirati rezultat. Također, iz testiranja
+sam ustanovio da često krivo zaključi koji podaci pripadaju retku tablice.
+Tako će, na primjer, podatak koji zauzima vise redaka unutar jedne ćelije
+tablice biti pretvoren u vise ćelija u vise redaka.
+
+
 \bibliography{zavrsni}
 \bibliographystyle{fer}
 
 \begin{sazetak}
+
 Proučiti i opisati dostupne sustave za izdvajanje tabličnih podataka iz
 polu-strukturiranih dokumenata kao što su web-stranice ili PDF dokumenti.
 Osmisliti i ostvariti sustav za izdvajanje strukturiranih tabličnih podaka iz
@@ -66,6 +90,7 @@ literaturu i primljenu pomoć.
 
 \engtitle{System for Tabular Data Extration from Web-pages}
 \begin{abstract}
+
 Study and describe available systems for extraction of tabular data from
 semi-structured documents like web sites or PDF documents. Think of and
 implement a system for extracting of structured tabular data from the types of
