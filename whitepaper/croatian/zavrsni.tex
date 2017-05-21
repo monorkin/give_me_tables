@@ -7,7 +7,7 @@
 
 \thesisnumber{000}
 
-\title{Sustav za izdvajanje tabličnih podataka iz web-stranica<Paste>}
+\title{Sustav za izdvajanje tabličnih podataka iz web-stranica}
 
 \author{Stanko Krtalić Rusendić}
 
@@ -18,6 +18,32 @@
 \tableofcontents
 
 \chapter{Uvod}
+
+\chapter{Postojeća rješenja}
+
+Postoji nekolicina javno dostupnih gotovih rješenja za izdvajanje tabličnih
+podataka iz PDF i HTML dokumenata.
+
+\section{Tabular}
+
+Tabular je rješenje otvorenog koda napisano u programskom jeziku JRuby.
+Nudi grafičko sučelje tako sto pokrene server preko kojeg servira web
+aplikaciju i sučelje za komandnu liniju kroz JAR datoteku. Moguće je vaditi
+tablične podatke jedino iz PDF dokumenata koji su tekstualnog tipa, odnosno,
+ne posjeduje mogućnosti prepoznavanja teksta i tablica iz slika.
+
+JRuby je verzija programskog jezika Ruby namijenjena izvođenju na Java
+virtualnom stroju (eng. kratica JVM). To JRubyju omogućuje korištinje
+programskih biblioteka iz ostalih jezika koji se izvršavaju na JVM-u. Tako
+Tabular za parsiranje PDF dokumenata koristi biblioteke JPedal i Apache
+PDFToolbox napisane u programskom jeziku Java.
+
+Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
+pretvara u CSV zapis i pohranjuje kao datoteku.
+
+Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje komandne linije,
+činjenica da se izvodi kao zaseban proces (server) sto zahtijeva od korisnika
+da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
 \bibliography{zavrsni}
 \bibliographystyle{fer}
