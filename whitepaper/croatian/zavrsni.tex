@@ -29,17 +29,20 @@ podataka iz PDF i HTML dokumenata.
 \section{Tabula}
 
 Tabula \cite{tabula_repository} je rješenje otvorenog koda napisano u
-programskom jeziku JRuby.
+programskom jeziku JRuby \cite{jruby_documentation}.
 Nudi grafičko sučelje tako sto pokrene server preko kojeg servira web
-aplikaciju i sučelje za komandnu liniju kroz JAR datoteku. Moguće je vaditi
+aplikaciju i sučelje za komandnu liniju kroz
+JAR \cite{java_language_specification} datoteku. Moguće je vaditi
 tablične podatke jedino iz PDF dokumenata koji su tekstualnog tipa, odnosno,
 ne posjeduje mogućnosti prepoznavanja teksta i tablica iz slika.
 
 JRuby je verzija programskog jezika Ruby namijenjena izvođenju na Java
-virtualnom stroju (eng. kratica JVM). To JRubyju omogućuje korištinje
+virtualnom stroju \cite{java_virtual_machine_specification} (eng. kratica JVM).
+To JRubyju omogućuje korištinje
 programskih biblioteka iz ostalih jezika koji se izvršavaju na JVM-u. Tako
 Tabula za parsiranje PDF dokumenata koristi biblioteke JPedal i Apache
-PDFToolbox napisane u programskom jeziku Java.
+PDFToolbox \cite{apache_pdftoolbox_specification} napisane u programskom
+jeziku Java \cite{java_language_specification}.
 
 Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
 pretvara u CSV zapis i pohranjuje kao datoteku.
@@ -73,11 +76,40 @@ tablice biti pretvoren u vise ćelija u vise redaka.
 
 \section{PDFFigures 2.0}
 
-PDFFigures 2.0 \cite{pdffigures_2_repository}
+PDFFigures 2.0 \cite{pdffigures_2_repository} je rješenje otvorenog koda
+napisano u programskom jeziku Scala \cite{scala_documentation}. Slično kao
+pdftabextract nudi isključivo
+sučelje komandne linije, ali može direktno procesirati PDF datoteke. Fokus
+rješenja je na ekstrahiranju podataka iz znanstvenih radova u polju računalne
+znanosti.
+
+Rezultat koji ovo rješenje vraća je set podataka koji opisuju figure PDF
+dokumenta. Sve sto nije isključivo kvadrat s tekstom se interpretira kao
+figura, npr. slike, tablice, ilustracije i slično.
+
+Manjkavosti ovog rješenja slične su onima od Tabule \cite{tabula_repository}.
+Za pokretanje je potrebno
+imati instaliraju točnu verziju JVM-a, ne postojanje interaktivnog sučelja i
+potreba za dodatnim eksternim programskim bibliotekama. Također, sučelje
+komandne linije je nezgrapno za korištenje kako se svodi na pisanje Scala koda
+koji se predaje Java virtualnom stroju na izvođenje.
 
 \section{PDFLayoutTextStripper}
 
-PDFLayoutTextStripper \cite{pdflayouttextstripper_repository}
+PDFLayoutTextStripper \cite{pdflayouttextstripper_repository} je programska
+biblioteka otvorenog koda napisano u programskom jeziku Java.
+
+Za razliku od prethodno navedenih rješenja primarna svrha ovog rješenja nije
+ekstrahiranje tabličnih podataka, već ekstrahiranje teksta i očuvanje njegovog
+prostornog rasporeda.
+
+Ima sposobnost direktne obrade PDF datoteka (sto uspijeva pomoću biblioteke iz
+Apache PDFToolboxa).
+
+Ova biblioteka ima iste nedostatke kao i Tabula \cite{tabula_repository} i
+PDFFigures 2.0 \cite{pdffigures_2_repository}, te dodatno ne
+nudi nikakvo sučelje za direktno korištenje već je potrebno implementirati
+vlastito programsko sučelje.
 
 
 
