@@ -1,0 +1,32 @@
+sudo: required
+
+language: rust
+
+rust:
+  - nightly
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-engine
+
+after_install:
+  - curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname
+  -s`-`uname -m` > /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - docker-compose --version
+
+before_deploy:
+  - mkdir release
+  - cd whitepaper/croatian && make pdf && mv zavrsni.pdf ../../release/whitepaper-croatian.pdf
+
+deploy:
+  provider: releases
+  api_key:
+    secure: TxV8xg9Sf3dEIBsCQ77aTgnFZvEst/tng2U+cfE6T/0Z9SQ7hL572ssIEwaQ6i6GuB5vE2VQB68wOGa338ShcXbjnSUG8UiukNcG6owr5Qm4l2p3wZ370S6Kc6wwixdQIsuut7zZadGy9P6MB+tt1M1CP1Y/sXep5BuhSx6/+h33DOSZKFEhFJcOZWXl8tpQr2mLcUzBW/cp7WMzaYTs4LDD9PPQeOkOR6hQBCxbh/gYtz26SJJUIClNrlecs/TDmREk8/jfTeRY2FDZzW8hHt/rZgNP9WRAHk4ahOzr1fFWAFip4bwwaRymNOj9bvgFAvnHgb0gSG49j0a2FsYO8mtuNFWAXtBPoDpldITViV+zBabL3bVsrlkJwxeHIdyEO5JPGS9ECxNijpyGUlGYfjvWQ5qv+aD9jfAKyB2ovBBI3VRFIObDpv8249ePsR395JfoYESmnaxkvxlE+Tv1dkmPWOU0IP0cnTXWFPy8ftcDFUgTUYAHlWnKz3jAnNz29joHAgaeSSydKqH+S+yRpCEFL1a/mL7WcfwqvKVO41BUAwmIbX84EouHtBezt4XpPuNWn/cWM7JIiC6u23ZAom8VdZU39yDkW+85I7xgKiEepTSSsoVTMyu25+SBSMlwFfAYkYnXMlVhLt90oikOA6dOyQDg6X9UrvopQeOuJOY=
+  file:
+    - release/whitepaper-croatian.pdf
+  on:
+    repo: stankec/give_me_tables

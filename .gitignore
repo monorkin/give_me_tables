@@ -1,6 +1,14 @@
+# Ignore LaTeX files
 *.aux
 *.bbl
 *.blg
 *.log
 *.toc
 *.pdf
+
+# Ignore text editor / IDE files
+tags
+.swp
+
+# Ignore build folder
+target/
