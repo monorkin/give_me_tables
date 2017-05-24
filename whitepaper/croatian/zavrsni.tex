@@ -23,8 +23,13 @@
 
 \chapter{Postojeća rješenja}
 
-Postoji nekolicina javno dostupnih gotovih rješenja za izdvajanje tabličnih
-podataka iz PDF i HTML dokumenata.
+\section{Uvod}
+
+Postoji nekolicina, javno dostupnih, gotovih rješenja za izdvajanje tabličnih
+podataka iz PDF \cite{pdf_documentation}
+i HTML \cite{html_documentation}
+datoteka. Svako od rješenja ima prednosti i mane koje je
+bitno proučiti prije razrade i implementacije vlastitog rješenja.
 
 \section{Tabula}
 
@@ -67,12 +72,14 @@ stupce, te ih organizirati u CSV datoteku.
 
 Takav pristup obradi PDF datoteka omogućava pdftabextractu rad s dokumentima
 koji su bili konvertirani iz slike u text, te dokumente koji nemaju strogo
-definiran tablični format. Međutim nedostatak ovakvog pristupa je nepouzdanost.
+definiran tablični format.
+
+Međutim nedostatak ovakvog pristupa je nepouzdanost.
 CSV datoteke, koje ovo rješenje vraća kao rezultat, često izgledaju ne
 strukturirano i potrebno je ručno sanitizirati rezultat. Također, iz testiranja
 sam ustanovio da često krivo zaključi koji podaci pripadaju retku tablice.
 Tako će, na primjer, podatak koji zauzima vise redaka unutar jedne ćelije
-tablice biti pretvoren u vise ćelija u vise redaka.
+tablice biti pretvoren u vise ćelija, tj. redaka u tablici.
 
 \section{PDFFigures 2.0}
 
@@ -116,6 +123,29 @@ vlastito programsko sučelje.
 \chapter{Idejno rješenje}
 
 \section{Uvod}
+
+Iz pregleda postojećih rješenja moguće je izdvojiti tri zajedničke mane.
+
+\begin{itemize}
+  \item Sva rješenja zahtijevaju da korisnik ima instaliran neki virtualni
+    stroj i dodatne  programske biblioteke
+  \item Nedostatak kvalitetnog i univerzalnog sučelja (bilo grafičkog ili iz
+    komandne linije)
+  \item Ne praćenje UNIX filozofije \cite{unix_philosophy}
+\end{itemize}
+
+pdftabextract prati UNIX filozofiju i koristiti drugu aplikaciju kako bi
+pretvorio PDF datoteke u pdf2xml format koji se lako parsira i obraduje.
+
+HTML datoteke je lakše parsirati i obrađivati od PDF datoteka kako je njihov
+sadržaj strukturiran i jasno definiran.
+Stoga bi konačno rješenje, u svrhu
+jednostavnosti izvedbe i poboljšanja rezultata, trebalo isključivo
+implementirati podršku za obradu HTML datoteka.
+
+Za obradu PDF datoteka, ili bilo kojeg drugog tipa datoteke,
+potrebno je istu prethodno pretvoriti u HTML datoteku pomoću alata poput
+pdf2htmlEX \cite{pdf2htmlex_repository}.
 
 \section{Željena funkcionalnost}
 
