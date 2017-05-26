@@ -53,7 +53,7 @@ Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
 pretvara u CSV zapis i pohranjuje kao datoteku.
 
 Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje komandne linije,
-činjenica da se izvodi kao zaseban proces (server) sto zahtijeva od korisnika
+činjenica da se izvodigg kao zaseban proces (server) sto zahtijeva od korisnika
 da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
 \section{pdftabextract}
@@ -134,8 +134,8 @@ Iz pregleda postojećih rješenja moguće je izdvojiti tri zajedničke mane.
   \item Ne praćenje UNIX filozofije \cite{unix_philosophy}
 \end{itemize}
 
-pdftabextract prati UNIX filozofiju i koristiti drugu aplikaciju kako bi
-pretvorio PDF datoteke u pdf2xml format koji se lako parsira i obraduje.
+pdftabextract donekle prati UNIX filozofiju i koristiti drugu aplikaciju kako bi
+pretvorio PDF datoteke u pdf2xml format koji se lako parsira i obrađuje.
 
 HTML datoteke je lakše parsirati i obrađivati od PDF datoteka kako je njihov
 sadržaj strukturiran i jasno definiran.
@@ -149,7 +149,54 @@ pdf2htmlEX \cite{pdf2htmlex_repository}.
 
 \section{Željena funkcionalnost}
 
+\subsection{Podržani tipovi ulaznih podataka}
+
+Prethodno su navedene prednosti korištenja podataka zapisanih u HTML formatu.
+Konačno rješenje ne bi smjelo biti limitirano isključivo na HTML podatke već
+bi trebalo nuditi mogućnost za lakom nadogradnjom novih formata za slučaj
+pojavljivanja formata koji se ne može pretvoriti u HTML ili za slučaj da se
+uvidi da je efikasnije direktno podržavati neki format.
+
+Rješenje mora moći primiti podatke direktno preko standardnog ulaza, pročitati
+ih iz datoteke ili ih preuzeti s poveznice. Čitanje podataka iz datoteke i
+preuzimanje s poveznice ne prati UNIX filozofiju, ali povećava ergonomičnost
+rješenja. UNIX filozofija naglašava da bi za obradu podatak iz datoteka i s
+poveznica trebali koristiti standardne alate poput cata, seda, curla i wgeta
+kako bi predali sadržaj datoteke ili poveznice našem rješenju na standardni
+ulaz. Međutim iz iskustva se pokazalo da takvo ulančavanje može stvoriti
+kompleksne lance naredbi za postizanje radnje koja je u bilo kojem programskom
+jeziku izrazito jednostavno za postignut. Stoga, u svrhu ergonomije i boljeg
+korisničkog iskustva, će konačno rješenje podržavati i ne standardne ulaze
+podataka.
+
+\subsection{Sučelje komandne linije}
+
+\subsection{Grafičko sučelje}
+
+\subsection{Podržani tipovi izlaznih podataka}
+
+Rješenje mora nuditi mogućnost zapisa izlaznih podataka u raznim formatima
+koji su standardni za tablične podatke - poput csv \cite{csv_documentation},
+xls \cite{xls_documentation}, xlsx \cite{xlsx_documentation} i
+ods \cite{ods_documentation} formata.
+Slično argumentu s ulaznim datotekama, rješenje za izlazne datoteke mora nuditi
+pohranu u datoteku i ispis na standardni izlaz. Ponovno, ovakva odluka ne
+prati UNIX filozofiju, ali povećava ergonomičnost rješenja.
+
+
 \section{Željeno ponašanje}
+
+Kako bi konačno rješenje bilo nezavisno o nekom virtualnom stroju ili o
+programskim bibliotekama potrebno ga je implementirati u programskom jeziku
+koji se može kompajlirati u procesorski kod ili zapakirati u binarnu datoteku.
+Programske biblioteke se moraju statično povezati u rezultantnu binarnu
+datoteku aplikacije kako korisnik ne bi morao prilagođavati svoju programsku
+okolinu i instalirati dodatne programske biblioteke da pokrene aplikaciju.
+
+Dinamično povezivanje programskih biblioteka može kod korisnika uzrokovati
+nepredviđene probleme poput ne kompatibilnosti dvaju ili vise biblioteka i
+konflikt u verziji biblioteke između dvaju ili vise aplikacija. Osim toga,
+krajnjeg korisnika se tereti da održava instalaciju programske biblioteke.
 
 \section{Arhitektura aplikacije}
 
