@@ -171,7 +171,36 @@ podataka.
 
 \subsection{Sučelje komandne linije}
 
+Kroz sučelje komandne linije korisnik može izdvojiti pojedinačnu tablicu i nad
+njom izvršiti agregacijske funkcije, ili može izdvojiti sve tablice iz nekog
+dokumenta. Time sto je izvoženje agregacijskih funkcija ograničeno na
+pojedinačne tablice se smanjuje kompleksnost konačnog rješenja i olakšava se
+rad korisniku kako ne mora učiti meta-jezik s kojim bi definirao izvođenje
+željenih agregacijskih funkcija nad tablicama - problem uviđen u već postojećim
+rješenjima, ali i u drugim alatima poput awk-a.
+
+Osim navedenog mora se nuditi sučelje za izlistavanje tablica u dokumentu
+kako bi korisnik mogao odrediti koje tablice želi izdvojiti. Sučelje bi
+trebalo prikazati nekolicinu stupaca tablice (koliko korisniku stane na ekran)
+i prva 3 retka.  Prethodno je spomenuto da mora postojati i sučelje za
+1selekciju tablica koje se treba izdvojiti.
+
 \subsection{Grafičko sučelje}
+
+Kroz grafičko sučelje korisnik mora imati sposobnost napraviti sve sto je
+moguće i u sučelju komandne linije. Grafičko sučelje bi trebalo predstavljati
+interaktivni način rada za sučelje komandne linije. Ovakav pristup će konačno
+rješenje učiniti nepristupačnim korisnicima koji ne znaju koristiti sučelje
+komandne linije, međutim korisnicima koji znaju koristiti to sučelje će
+olakšati proces učenja korištenja alata.
+
+Postoji mogućnost da se stvori puno grafičko sučelje nad opisanim rješenjem.
+Implementacija punog grafičkog sučelja bi trebala, preko sistemskog sučelja,
+slati naredbe rješenju i koristiti povrate informacije za prikaz vizualnih
+elemenata na ekranu. Alternativno, moguće je i razdvojiti jezgru ovog rješenja
+od koda zaduženog za interakciju s korisnikom i tako rješenje pretvoriti u
+programsku biblioteku. To bi omogućilo da se isti kod koristi da pogoni razna
+sučelja prema korisniku.
 
 \subsection{Podržani tipovi izlaznih podataka}
 
