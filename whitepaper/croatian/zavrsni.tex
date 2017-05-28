@@ -23,8 +23,13 @@
 
 \chapter{Postojeća rješenja}
 
-Postoji nekolicina javno dostupnih gotovih rješenja za izdvajanje tabličnih
-podataka iz PDF i HTML dokumenata.
+\section{Uvod}
+
+Postoji nekolicina, javno dostupnih, gotovih rješenja za izdvajanje tabličnih
+podataka iz PDF \cite{pdf_documentation}
+i HTML \cite{html_documentation}
+datoteka. Svako od rješenja ima prednosti i mane koje je
+bitno proučiti prije razrade i implementacije vlastitog rješenja.
 
 \section{Tabula}
 
@@ -48,7 +53,7 @@ Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
 pretvara u CSV zapis i pohranjuje kao datoteku.
 
 Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje komandne linije,
-činjenica da se izvodi kao zaseban proces (server) sto zahtijeva od korisnika
+činjenica da se izvodigg kao zaseban proces (server) sto zahtijeva od korisnika
 da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
 \section{pdftabextract}
@@ -67,12 +72,14 @@ stupce, te ih organizirati u CSV datoteku.
 
 Takav pristup obradi PDF datoteka omogućava pdftabextractu rad s dokumentima
 koji su bili konvertirani iz slike u text, te dokumente koji nemaju strogo
-definiran tablični format. Međutim nedostatak ovakvog pristupa je nepouzdanost.
+definiran tablični format.
+
+Međutim nedostatak ovakvog pristupa je nepouzdanost.
 CSV datoteke, koje ovo rješenje vraća kao rezultat, često izgledaju ne
 strukturirano i potrebno je ručno sanitizirati rezultat. Također, iz testiranja
 sam ustanovio da često krivo zaključi koji podaci pripadaju retku tablice.
 Tako će, na primjer, podatak koji zauzima vise redaka unutar jedne ćelije
-tablice biti pretvoren u vise ćelija u vise redaka.
+tablice biti pretvoren u vise ćelija, tj. redaka u tablici.
 
 \section{PDFFigures 2.0}
 
@@ -117,11 +124,120 @@ vlastito programsko sučelje.
 
 \section{Uvod}
 
+Iz pregleda postojećih rješenja moguće je izdvojiti tri zajedničke mane.
+
+\begin{itemize}
+  \item Sva rješenja zahtijevaju da korisnik ima instaliran neki virtualni
+    stroj i dodatne  programske biblioteke
+  \item Nedostatak kvalitetnog i univerzalnog sučelja (bilo grafičkog ili iz
+    komandne linije)
+  \item Ne praćenje UNIX filozofije \cite{unix_philosophy}
+\end{itemize}
+
+pdftabextract donekle prati UNIX filozofiju i koristiti drugu aplikaciju kako bi
+pretvorio PDF datoteke u pdf2xml format koji se lako parsira i obrađuje.
+
+HTML datoteke je lakše parsirati i obrađivati od PDF datoteka kako je njihov
+sadržaj strukturiran i jasno definiran.
+Stoga bi konačno rješenje, u svrhu
+jednostavnosti izvedbe i poboljšanja rezultata, trebalo isključivo
+implementirati podršku za obradu HTML datoteka.
+
+Za obradu PDF datoteka, ili bilo kojeg drugog tipa datoteke,
+potrebno je istu prethodno pretvoriti u HTML datoteku pomoću alata poput
+pdf2htmlEX \cite{pdf2htmlex_repository}.
+
 \section{Željena funkcionalnost}
 
-\section{Željeno ponašanje}
+\subsection{Podržani tipovi ulaznih podataka}
+
+Prethodno su navedene prednosti korištenja podataka zapisanih u HTML formatu.
+Konačno rješenje ne bi smjelo biti limitirano isključivo na HTML podatke već
+bi trebalo nuditi mogućnost za lakom nadogradnjom novih formata za slučaj
+pojavljivanja formata koji se ne može pretvoriti u HTML ili za slučaj da se
+uvidi da je efikasnije direktno podržavati neki format.
+
+Rješenje mora moći primiti podatke direktno preko standardnog ulaza, pročitati
+ih iz datoteke ili ih preuzeti s poveznice. Čitanje podataka iz datoteke i
+preuzimanje s poveznice ne prati UNIX filozofiju, ali povećava ergonomičnost
+rješenja. UNIX filozofija naglašava da bi za obradu podatak iz datoteka i s
+poveznica trebali koristiti standardne alate poput cata, seda, curla i wgeta
+kako bi predali sadržaj datoteke ili poveznice našem rješenju na standardni
+ulaz. Međutim iz iskustva se pokazalo da takvo ulančavanje može stvoriti
+kompleksne lance naredbi za postizanje radnje koja je u bilo kojem programskom
+jeziku izrazito jednostavno za postignut. Stoga, u svrhu ergonomije i boljeg
+korisničkog iskustva, će konačno rješenje podržavati i ne standardne ulaze
+podataka.
+
+\subsection{Sučelje komandne linije}
+
+Kroz sučelje komandne linije korisnik može izdvojiti pojedinačnu tablicu i nad
+njom izvršiti agregacijske funkcije, ili može izdvojiti sve tablice iz nekog
+dokumenta. Time sto je izvoženje agregacijskih funkcija ograničeno na
+pojedinačne tablice se smanjuje kompleksnost konačnog rješenja i olakšava se
+rad korisniku kako ne mora učiti meta-jezik s kojim bi definirao izvođenje
+željenih agregacijskih funkcija nad tablicama - problem uviđen u već postojećim
+rješenjima, ali i u drugim alatima poput awk-a.
+
+Osim navedenog mora se nuditi sučelje za izlistavanje tablica u dokumentu
+kako bi korisnik mogao odrediti koje tablice želi izdvojiti. Sučelje bi
+trebalo prikazati nekolicinu stupaca tablice (koliko korisniku stane na ekran)
+i prva 3 retka.  Prethodno je spomenuto da mora postojati i sučelje za
+1selekciju tablica koje se treba izdvojiti.
+
+\subsection{Grafičko sučelje}
+
+Kroz grafičko sučelje korisnik mora imati sposobnost napraviti sve sto je
+moguće i u sučelju komandne linije. Grafičko sučelje bi trebalo predstavljati
+interaktivni način rada za sučelje komandne linije. Ovakav pristup će konačno
+rješenje učiniti nepristupačnim korisnicima koji ne znaju koristiti sučelje
+komandne linije, međutim korisnicima koji znaju koristiti to sučelje će
+olakšati proces učenja korištenja alata.
+
+Postoji mogućnost da se stvori puno grafičko sučelje nad opisanim rješenjem.
+Implementacija punog grafičkog sučelja bi trebala, preko sistemskog sučelja,
+slati naredbe rješenju i koristiti povrate informacije za prikaz vizualnih
+elemenata na ekranu. Alternativno, moguće je i razdvojiti jezgru ovog rješenja
+od koda zaduženog za interakciju s korisnikom i tako rješenje pretvoriti u
+programsku biblioteku. To bi omogućilo da se isti kod koristi da pogoni razna
+sučelja prema korisniku.
+
+\subsection{Podržani tipovi izlaznih podataka}
+
+Rješenje mora nuditi mogućnost zapisa izlaznih podataka u raznim formatima
+koji su standardni za tablične podatke - poput csv \cite{csv_documentation},
+xls \cite{xls_documentation}, xlsx \cite{xlsx_documentation} i
+ods \cite{ods_documentation} formata.
+Slično argumentu s ulaznim datotekama, rješenje za izlazne datoteke mora nuditi
+pohranu u datoteku i ispis na standardni izlaz. Ponovno, ovakva odluka ne
+prati UNIX filozofiju, ali povećava ergonomičnost rješenja.
 
 \section{Arhitektura aplikacije}
+
+
+Kako bi konačno rješenje bilo nezavisno o nekom virtualnom stroju ili o
+programskim bibliotekama potrebno ga je implementirati u programskom jeziku
+koji se može kompajlirati u procesorski kod ili zapakirati u binarnu datoteku.
+
+Programske biblioteke se moraju statično povezati u rezultantnu binarnu
+datoteku aplikacije kako korisnik ne bi morao prilagođavati svoju programsku
+okolinu i instalirati dodatne programske biblioteke da pokrene aplikaciju.
+
+Dinamično povezivanje programskih biblioteka može kod korisnika uzrokovati
+nepredviđene probleme poput ne kompatibilnosti dvaju ili vise biblioteka i
+konflikt u verziji biblioteke između dvaju ili vise aplikacija. Osim toga,
+krajnjeg korisnika se tereti da održava instalaciju programske biblioteke.
+
+Rješenje se treba moći lako nadograđivati i proširivati. Prethodno je navedeno
+postojanje mogućnosti da će rješenje morat podržavati ulazne datoteke
+drugačijeg tipa od predviđenih HTML datoteka. Isto razmišljanje može se
+primijeniti na izlazne datoteke, te na agregacijske funkcije. Kroz vrijeme će
+se pokazati potreba za dodatnim agregacijskim funkcijama ili tipovima izlaznih
+datoteka.
+
+S toga konačno rješenje mora implementirati arhitekturu koja
+podržava programske dodatke (eng. plugin).
+
 
 
 
