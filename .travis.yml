@@ -24,9 +24,9 @@ after_install:
 before_deploy:
   - mkdir release
   - cd whitepaper/croatian && make pdf && mv zavrsni.pdf ../../release/whitepaper-croatian.pdf
-  - mkdir -p ~/docker
-  - df -h
-  - docker images
+  - pwd
+  - ls -algh
+  - ls -algh release
 
 deploy:
   provider: releases
