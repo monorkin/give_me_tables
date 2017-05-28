@@ -26,6 +26,8 @@ before_deploy:
   - mkdir release
   - cd whitepaper/croatian && make pdf && mv zavrsni.pdf ../../release/whitepaper-croatian.pdf
   - mkdir -p ~/docker
+  - df -h
+  - docker images
   - docker save --output ~/docker/image.tar $(docker images -q)
 
 deploy:
