@@ -212,12 +212,13 @@ Slično argumentu s ulaznim datotekama, rješenje za izlazne datoteke mora nudit
 pohranu u datoteku i ispis na standardni izlaz. Ponovno, ovakva odluka ne
 prati UNIX filozofiju, ali povećava ergonomičnost rješenja.
 
+\section{Arhitektura aplikacije}
 
-\section{Željeno ponašanje}
 
 Kako bi konačno rješenje bilo nezavisno o nekom virtualnom stroju ili o
 programskim bibliotekama potrebno ga je implementirati u programskom jeziku
 koji se može kompajlirati u procesorski kod ili zapakirati u binarnu datoteku.
+
 Programske biblioteke se moraju statično povezati u rezultantnu binarnu
 datoteku aplikacije kako korisnik ne bi morao prilagođavati svoju programsku
 okolinu i instalirati dodatne programske biblioteke da pokrene aplikaciju.
@@ -227,7 +228,16 @@ nepredviđene probleme poput ne kompatibilnosti dvaju ili vise biblioteka i
 konflikt u verziji biblioteke između dvaju ili vise aplikacija. Osim toga,
 krajnjeg korisnika se tereti da održava instalaciju programske biblioteke.
 
-\section{Arhitektura aplikacije}
+Rješenje se treba moći lako nadograđivati i proširivati. Prethodno je navedeno
+postojanje mogućnosti da će rješenje morat podržavati ulazne datoteke
+drugačijeg tipa od predviđenih HTML datoteka. Isto razmišljanje može se
+primijeniti na izlazne datoteke, te na agregacijske funkcije. Kroz vrijeme će
+se pokazati potreba za dodatnim agregacijskim funkcijama ili tipovima izlaznih
+datoteka.
+
+S toga konačno rješenje mora implementirati arhitekturu koja
+podržava programske dodatke (eng. plugin).
+
 
 
 
