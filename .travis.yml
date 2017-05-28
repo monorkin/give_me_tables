@@ -24,6 +24,7 @@ after_install:
 before_deploy:
   - mkdir release
   - cd whitepaper/croatian && make pdf && mv zavrsni.pdf ../../release/whitepaper-croatian.pdf
+  - cd ../..
   - pwd
   - ls -algh
   - ls -algh release
