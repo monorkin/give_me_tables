@@ -2,8 +2,9 @@
 
 ## Build status
 
-| [![Build Status](https://travis-ci.org/stankec/give_me_tables.svg?branch=master)](https://travis-ci.org/stankec/give_me_tables) | [![Build Status](https://travis-ci.org/stankec/give_me_tables.svg?branch=develop)](https://travis-ci.org/stankec/give_me_tables) |
 | Master | Develop |
+|:-:|:-:|
+| [![Build Status](https://travis-ci.org/stankec/give_me_tables.svg?branch=master)](https://travis-ci.org/stankec/give_me_tables) | [![Build Status](https://travis-ci.org/stankec/give_me_tables.svg?branch=develop)](https://travis-ci.org/stankec/give_me_tables) |
 
 ## License
 
