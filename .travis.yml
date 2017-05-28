@@ -10,7 +10,7 @@ services:
 
 cache:
   directories:
-    - ~/docker
+    - /var/lib/docker
 
 before_install:
   - sudo apt-get update
@@ -20,7 +20,6 @@ after_install:
   - curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
   - sudo chmod +x /usr/local/bin/docker-compose
   - docker-compose --version
-  - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
 
 before_deploy:
   - mkdir release
@@ -28,7 +27,6 @@ before_deploy:
   - mkdir -p ~/docker
   - df -h
   - docker images
-  - docker save --output ~/docker/image.tar $(docker images -q)
 
 deploy:
   provider: releases
