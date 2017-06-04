@@ -1,7 +1,7 @@
-use clap::{Arg, App};
-use serde_json::{Value};
+use clap::{Arg, App, ArgMatches};
+use ::cli::arguments::*;
 
-pub fn arguments() -> Value {
+pub fn arguments() -> Arguments {
     let matches =
         App::new("Give Me Tables")
         .version("0.1")
@@ -67,7 +67,7 @@ pub fn arguments() -> Value {
            .short("a")
            .long("aggregation-function")
            .value_name("COMMAND")
-           .help("Apply an aggregation function. Syntax \"FUNCTION_NAME [, col X [-Y]] [, row X [-Y]]\"")
+           .help("Apply an aggregation function. Syntax \"FUNCTION_NAME [, column] [, row]\"")
            .takes_value(true)
            .overrides_with_all(&["interactive"])
            .multiple(true))
@@ -75,13 +75,159 @@ pub fn arguments() -> Value {
            .short("t")
            .long("transformation")
            .value_name("COMMAND")
-           .help("Apply a transformation. Syntax \"TRANSFORMATION_NAME [, col X [-Y]] [, row X [-Y]]\"")
+           .help("Apply a transformation. Syntax \"TRANSFORMATION_NAME [, column] [, row]\"")
            .takes_value(true)
            .overrides_with_all(&["interactive"])
            .multiple(true))
         .get_matches();
 
-    println!("{:?}", matches);
+    convert_to_arguments(matches)
+}
 
-    json!({})
+fn convert_to_arguments(matches: ArgMatches) -> Arguments {
+    let input =
+        if matches.occurrences_of("input-file") == 1 {
+            InputSource::File(
+                matches.value_of("input-file")
+                .expect("No input file specified")
+                .to_string()
+            )
+        }
+        else if matches.occurrences_of("url") == 1 {
+            InputSource::Url(
+                matches.value_of("url")
+                .expect("No URL specified")
+                .to_string()
+            )
+        }
+        else {
+            InputSource::Stdin(
+                matches.value_of("INPUT").unwrap_or("").to_string()
+            )
+        };
+
+    let output =
+        if matches.occurrences_of("output-file") == 1 {
+            OutputSource::File(
+                matches.value_of("output-file")
+                .unwrap_or("output")
+                .to_string()
+            )
+        }
+        else {
+            OutputSource::Stdout
+        };
+
+    let verbosity =
+        match matches.occurrences_of("verbose") {
+            1 => Verbosity::Error,
+            2 => Verbosity::Warning,
+            3 => Verbosity::Info,
+            _ => Verbosity::Silent
+        };
+
+    let aggregation_functions = parse_aggregation_functions(&matches);
+
+    let transformations = parse_transformations(&matches);
+
+    let list_tables = matches.occurrences_of("list-tables") == 1;
+
+    let list_available_aggregation_functions =
+        matches.occurrences_of("list-aggregation-functions") == 1;
+
+    let list_available_transformations =
+        matches.occurrences_of("list-transformations") == 1;
+
+    let interactive_mode =
+        matches.occurrences_of("interactive") == 1;
+
+    Arguments::new(
+        input,
+        output,
+        verbosity,
+        aggregation_functions,
+        transformations,
+        list_tables,
+        list_available_aggregation_functions,
+        list_available_transformations,
+        interactive_mode
+    )
+}
+
+fn parse_aggregation_functions(matches: &ArgMatches) -> Vec<AggregationFunction>
+{
+    if matches.occurrences_of("aggregation-function") == 0 {
+        return vec![];
+    }
+
+    let values = matches.values_of("aggregation-function")
+        .expect("No aggregation functions found");
+
+    fn map_function(value: &str) -> AggregationFunction {
+        let (name, column, row) = parse_function_command(value);
+
+        AggregationFunction::new(
+            name,
+            column,
+            row
+        )
+    }
+
+    values.into_iter().map(map_function).collect::<Vec<AggregationFunction>>()
+}
+
+fn parse_transformations(matches: &ArgMatches) -> Vec<Transformation> {
+    if matches.occurrences_of("transformation") == 0 {
+        return vec![];
+    }
+
+    let values = matches.values_of("transformation")
+        .expect("No transformations found");
+
+    fn map_function(value: &str) -> Transformation {
+        let (name, column, row) = parse_function_command(value);
+
+        Transformation::new(
+            name,
+            column,
+            row
+        )
+    }
+
+    values.into_iter().map(map_function).collect::<Vec<Transformation>>()
+}
+
+fn parse_function_command(value: &str)
+    -> (String, Option<String>, Option<i64>) {
+    let command = value.to_string();
+    let mut components = command.split(",")
+        .into_iter()
+        .map(|string| string.trim().to_string())
+        .collect::<Vec<String>>();
+
+    components.reverse();
+
+    let name = match components.pop() {
+        Some(name) => name.to_string(),
+        _ => panic!("No name componenct specified for command '{:?}'", command)
+    };
+
+    let column = match components.pop() {
+        Some(column) => Some(column.to_string()),
+        _ => None
+    };
+
+    let row = match components.pop() {
+        Some(row) => {
+            let row = row
+                .to_string()
+                .parse::<i64>()
+                .expect("Could not parse row integer for command");
+
+            Some(row)
+        },
+        _ => None
+    };
+
+    (name, column, row)
 }
