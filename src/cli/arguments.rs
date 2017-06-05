@@ -1,17 +1,17 @@
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum InputSource {
     Stdin(String),
     File(String),
     Url(String)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum OutputSource {
     Stdout,
     File(String)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Verbosity {
     Silent,
     Error,
@@ -19,7 +19,7 @@ pub enum Verbosity {
     Info
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub struct AggregationFunction {
     name: String,
     column: Option<String>,
@@ -37,7 +37,7 @@ impl AggregationFunction {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub struct Transformation {
     name: String,
     column: Option<String>,
@@ -55,7 +55,7 @@ impl Transformation {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub struct Arguments {
     input: InputSource,
     output: OutputSource,
@@ -92,5 +92,41 @@ impl Arguments {
             list_available_transformations: list_available_transformations,
             interactive_mode: interactive_mode
         }
+    }
+
+    pub fn input_source(self) -> InputSource {
+        self.input
+    }
+
+    pub fn output_source(self) -> OutputSource {
+        self.output
+    }
+
+    pub fn verbosity(self) -> Verbosity {
+        self.verbosity
+    }
+
+    pub fn aggregation_functions(self) -> Vec<AggregationFunction> {
+        self.aggregation_functions
+    }
+
+    pub fn transformations(self) -> Vec<Transformation> {
+        self.transformations
+    }
+
+    pub fn list_tables(self) -> bool {
+        self.list_tables
+    }
+
+    pub fn list_available_aggregation_functions(self) -> bool {
+        self.list_available_aggregation_functions
+    }
+
+    pub fn list_available_transformations(self) -> bool {
+        self.list_available_transformations
+    }
+
+    pub fn interactive_mode(self) -> bool {
+        self.interactive_mode
     }
 }

@@ -8,21 +8,26 @@ pub fn arguments() -> Arguments {
         .author("Stanko K. R. <stanko.krtalic@gmail.com>")
         .about("Extract tabular data from documents")
         .arg(Arg::with_name("INPUT")
-           .help("Raw input data")
-           .required(false))
+            .help("Raw input data")
+            .required_unless_one(&[
+                "input-file",
+                "url"
+            ])
+            .index(1))
         .arg(Arg::with_name("verbose")
-           .short("v")
-           .long("verbose")
-           .multiple(true)
-           .overrides_with_all(&["interactive"])
-           .help("Sets the level of verbosity"))
+            .short("v")
+            .long("verbose")
+            .multiple(true)
+            .overrides_with_all(&["interactive"])
+            .help("Sets the level of verbosity"))
         .arg(Arg::with_name("list-aggregation-functions")
-           .short("A")
-           .long("list-aggregation-functions")
-           .multiple(false)
-           .overrides_with_all(&[
-                "interactive", "list-tables"
-           ])
+            .short("A")
+            .long("list-aggregation-functions")
+            .multiple(false)
+            .overrides_with_all(&[
+                "interactive",
+                "list-tables"
+            ])
            .help("Lists all available aggregation functions"))
         .arg(Arg::with_name("list-transformations")
            .short("T")
@@ -37,7 +42,8 @@ pub fn arguments() -> Arguments {
            .long("list-tables")
            .multiple(false)
            .overrides_with_all(&[
-                "interactive", "list-aggregation-functions",
+                "interactive",
+                "list-aggregation-functions",
                 "list-transformations"
            ])
            .help("Lists all available tables in a document"))
@@ -52,12 +58,20 @@ pub fn arguments() -> Arguments {
            .long("input-file")
            .value_name("FILE")
            .help("Sets the desired input file")
+           .required_unless_one(&[
+                "INPUT",
+                "url"
+            ])
            .takes_value(true))
         .arg(Arg::with_name("url")
            .short("u")
            .long("url")
            .value_name("URL")
            .help("Sets the input data from URL")
+           .required_unless_one(&[
+                "INPUT",
+                "input-file"
+            ])
            .takes_value(true))
         .arg(Arg::with_name("interactive")
            .short("i")
@@ -70,7 +84,9 @@ pub fn arguments() -> Arguments {
            .help("Apply an aggregation function. Syntax \"FUNCTION_NAME [, column] [, row]\"")
            .takes_value(true)
            .overrides_with_all(&["interactive"])
-           .multiple(true))
+           .multiple(true)
+           .number_of_values(1)
+           .value_terminator(" "))
         .arg(Arg::with_name("transformation")
            .short("t")
            .long("transformation")
@@ -78,7 +94,9 @@ pub fn arguments() -> Arguments {
            .help("Apply a transformation. Syntax \"TRANSFORMATION_NAME [, column] [, row]\"")
            .takes_value(true)
            .overrides_with_all(&["interactive"])
-           .multiple(true))
+           .multiple(true)
+           .number_of_values(1)
+           .value_terminator(" "))
         .get_matches();
 
     convert_to_arguments(matches)
