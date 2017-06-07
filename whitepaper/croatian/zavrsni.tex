@@ -15,11 +15,22 @@
 
 \maketitle
 
-\zahvala{Hvala Veljku i Klemi na ukazanom povjerenju}
+\zahvala{Hvala Veljku i Klemi na ukazanom povjerenju, te Aniti na strpljenju}
 
 \tableofcontents
 
 \chapter{Uvod}
+
+Današnji izvori podataka bili akademski, financijski ili bilo kojeg drugog tipa
+ su prepravljeni tabličnim podacima. Kako bi korisnici mogli lakše konzumirati
+i obrađivati podatke potreban im je alat pomoću kojeg ih mogu izvaditi.
+
+Cilj ovog završnog rada je razvoj alata koji rješava prethodno navedeni problem.
+U sklopu rada će se analizirati postojeća rješenja, njihove prednosti i mane.
+Opisati ce se idejno rješenje koje predstavlja napredak nad postojećim
+rješenjima. Na posljetku će se opisati implementacija rješenja, korištene
+tehnologije, programske knjižnice, algoritmi, uputstva za instalaciju, te
+uzorci korištenja.
 
 
 
@@ -247,27 +258,49 @@ implementacijom usmjerivača zahtjeva \cite{router_arhitecture_ieee}
 
 Kod stoga filtera ulazni podaci se propuštaju kroz skup filtera, svaki filter
 obraduje podatke i potom ih predaje sljedećem filteru na obradu. Dok se kod
-routera podaci predaju routeru koji ih onda predaje isključivo jednom modulu na
-obradu.
+usmjerivača zahtjeva podaci predaju usmjerivaču zahtjeva koji ih onda predaje
+isključivo
+jednom modulu na obradu.
 
 Stog filtera je fleksibilnije rješenje, za dodavanje novog filtera potrebno
 je implementirati filter i dodati ga na željeno mjesto u stog. Više različitih
 filtera može obrađivati isti podatak tako da nema potreba za stvaranjem
-monolitnih modula ili duplikacijom logike. Routeri, kao sto je prethodno
+monolitnih modula ili duplikacijom logike. Usmjerivači zahtjeva, kao sto je
+prethodno
 navedeno, su manje fleksibilno rješenje. Za dodavanje novog modula potrebno je
-implementirati sam modul te proširiti router s kodom koji će određivati hoće li
+implementirati sam modul te proširiti usmjerivač zahtjeva s kodom koji će
+određivati hoće li
 se ulazni podatak usmjeriti na novi modul.
 
-Konačno rješenje će implementirati
+Konačno rješenje implementira
 oba tipa \textit{plugin arhitekture}. Obrada ulaznih i izlaznih tipova podataka
-će biti
-implementirana pomoću routera, kao se ulazni odnosno izlazni podatak mora
+je
+implementirana pomoću usmjerivača zahtjeva, kao se ulazni odnosno izlazni
+podatak mora
 usmjeriti isključivo jednom modulu na parsiranje ili formatiranje. Obrada
-agregacijskih funkcija bit će implementirana pomoću stoga filtera kako se
+agregacijskih funkcija je implementirana pomoću stoga filtera kako se
 radi o procesu u kojem se isti podatak uzastopno obraduje različitim filterima
 koji ga mutiraju, a koji se mogu kombinirati na nepredvidive načine.
 
+Rješenje prvo parsirati argumente koji su mu biti predani kroz sučelje
+naredbenog retka iz kojih se iščitavaju izvor ulaznih podataka, format ulaznih
+podataka, željene transformacije i agregacijske funkcije, izvor izlaznih
+podataka, te format izlaznih podataka. Argumenti se prosljeđuju usmjerivaču
+izvora podataka koji zaključuje koji izvor podataka je potrebno citati.
+Pročitani podaci se vraćaju programu i prosljeđuju do usmjerivača parsera
+ulaznih formata. Usmjerivač parsera ulaznih formata prosljeđuje ulazne podatke
+odgovarajućem parseru koji vraća strukturu podataka koja predstavlja pronađene
+tablične podatke. Struktura podataka za tablice se potom prosljeđuje  stogu
+filtera transformacija zajedno s ulaznim argumentima. Filter prosljeđuje
+argumente i strukturu tablica svakom filteru i vraća novu strukturu tablica
+kao rezultat. Isti postupak sa stogom filtera transformacija se izvodi nad
+stogom filtera agregacijskih funkcija. Konačno podaci se prosljeđuju
+usmjerivaču za formatiranje izlaznih podataka koji ih predaje modulu za
+formatiranje u željeni izlazni format i potom predaje usmjerivaču za zapis na
+željeni izlaz.
 
+Cijeli tok podataka kroz rješenje je grafički prikazan na
+slici \ref{data_processing_flow_chart}.
 
 \begin{figure}[h]
   \centering
