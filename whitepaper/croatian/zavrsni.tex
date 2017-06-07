@@ -35,8 +35,8 @@ bitno proučiti prije razrade i implementacije vlastitog rješenja.
 
 Tabula \cite{tabula_repository} je rješenje otvorenog koda napisano u
 programskom jeziku JRuby \cite{jruby_documentation}.
-Nudi grafičko sučelje tako sto pokrene server preko kojeg servira web
-aplikaciju i sučelje za komandnu liniju kroz
+Nudi grafičko sučelje tako sto pokrene poslužitelj preko kojeg poslužuje web
+aplikaciju i sučelje za naredbeni redak kroz
 JAR \cite{java_language_specification} datoteku. Moguće je vaditi
 tablične podatke jedino iz PDF dokumenata koji su tekstualnog tipa, odnosno,
 ne posjeduje mogućnosti prepoznavanja teksta i tablica iz slika.
@@ -44,23 +44,24 @@ ne posjeduje mogućnosti prepoznavanja teksta i tablica iz slika.
 JRuby je verzija programskog jezika Ruby namijenjena izvođenju na Java
 virtualnom stroju \cite{java_virtual_machine_specification} (eng. kratica JVM).
 To JRubyju omogućuje korištinje
-programskih biblioteka iz ostalih jezika koji se izvršavaju na JVM-u. Tako
-Tabula za parsiranje PDF dokumenata koristi biblioteke JPedal i Apache
+programskih knjižnice iz ostalih jezika koji se izvršavaju na JVM-u. Tako
+Tabula za parsiranje PDF dokumenata koristi knjižnice JPedal i Apache
 PDFToolbox \cite{apache_pdftoolbox_specification} napisane u programskom
 jeziku Java \cite{java_language_specification}.
 
 Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
 pretvara u CSV zapis i pohranjuje kao datoteku.
 
-Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje komandne linije,
-činjenica da se izvodigg kao zaseban proces (server) sto zahtijeva od korisnika
+Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje naredbenog redaka,
+činjenica da se izvodigg kao zaseban proces (poslužitelj) sto zahtijeva od
+korisnika
 da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
 \section{pdftabextract}
 
 pdftabextract \cite{pdftabextract_repository} je rješenje otvorenog koda napisano
 u programskom jeziku Python.
-Nudi isključivo sučelje komandne linije i ne može direktno obrađivati PDF
+Nudi isključivo sučelje naredbenog redaka i ne može direktno obrađivati PDF
 datoteke, već ih je prethodno potrebno konvertirati u pdf2xml format.
 
 Korištenje programskog alata pdf2xml omogućava ovom rješenju reparaciju
@@ -86,34 +87,34 @@ tablice biti pretvoren u vise ćelija, tj. redaka u tablici.
 PDFFigures 2.0 \cite{pdffigures_2_repository} je rješenje otvorenog koda
 napisano u programskom jeziku Scala \cite{scala_documentation}. Slično kao
 pdftabextract nudi isključivo
-sučelje komandne linije, ali može direktno procesirati PDF datoteke. Fokus
+sučelje naredbenog redaka, ali može direktno procesirati PDF datoteke. Fokus
 rješenja je na ekstrahiranju podataka iz znanstvenih radova u polju računalne
 znanosti.
 
-Rezultat koji ovo rješenje vraća je set podataka koji opisuju figure PDF
+Rezultat koji ovo rješenje vraća je skup podataka koji opisuju figure PDF
 dokumenta. Sve sto nije isključivo kvadrat s tekstom se interpretira kao
 figura, npr. slike, tablice, ilustracije i slično.
 
 Manjkavosti ovog rješenja slične su onima od Tabule \cite{tabula_repository}.
 Za pokretanje je potrebno
 imati instaliraju točnu verziju JVM-a, ne postojanje interaktivnog sučelja i
-potreba za dodatnim eksternim programskim bibliotekama. Također, sučelje
-komandne linije je nezgrapno za korištenje kako se svodi na pisanje Scala koda
+potreba za dodatnim eksternim programskim knjižnicama. Također, sučelje
+naredbenog redaka je nezgrapno za korištenje kako se svodi na pisanje Scala koda
 koji se predaje Java virtualnom stroju na izvođenje.
 
 \section{PDFLayoutTextStripper}
 
 PDFLayoutTextStripper \cite{pdflayouttextstripper_repository} je programska
-biblioteka otvorenog koda napisano u programskom jeziku Java.
+knjižnica otvorenog koda napisano u programskom jeziku Java.
 
 Za razliku od prethodno navedenih rješenja primarna svrha ovog rješenja nije
 ekstrahiranje tabličnih podataka, već ekstrahiranje teksta i očuvanje njegovog
 prostornog rasporeda.
 
-Ima sposobnost direktne obrade PDF datoteka (sto uspijeva pomoću biblioteke iz
+Ima sposobnost direktne obrade PDF datoteka (sto uspijeva pomoću knjižnice iz
 Apache PDFToolboxa).
 
-Ova biblioteka ima iste nedostatke kao i Tabula \cite{tabula_repository} i
+Ova knjižnica ima iste nedostatke kao i Tabula \cite{tabula_repository} i
 PDFFigures 2.0 \cite{pdffigures_2_repository}, te dodatno ne
 nudi nikakvo sučelje za direktno korištenje već je potrebno implementirati
 vlastito programsko sučelje.
@@ -128,9 +129,9 @@ Iz pregleda postojećih rješenja moguće je izdvojiti tri zajedničke mane.
 
 \begin{itemize}
   \item Sva rješenja zahtijevaju da korisnik ima instaliran neki virtualni
-    stroj i dodatne  programske biblioteke
+    stroj i dodatne  programske knjižnice
   \item Nedostatak kvalitetnog i univerzalnog sučelja (bilo grafičkog ili iz
-    komandne linije)
+    naredbenog redaka)
   \item Ne praćenje UNIX filozofije \cite{unix_philosophy}
 \end{itemize}
 
@@ -152,7 +153,7 @@ pdf2htmlEX \cite{pdf2htmlex_repository}.
 \subsection{Podržani tipovi ulaznih podataka}
 
 Prethodno su navedene prednosti korištenja podataka zapisanih u HTML formatu.
-Konačno rješenje ne bi smjelo biti limitirano isključivo na HTML podatke već
+Konačno rješenje ne bi smjelo biti ograničeno isključivo na HTML podatke već
 bi trebalo nuditi mogućnost za lakom nadogradnjom novih formata za slučaj
 pojavljivanja formata koji se ne može pretvoriti u HTML ili za slučaj da se
 uvidi da je efikasnije direktno podržavati neki format.
@@ -169,9 +170,9 @@ jeziku izrazito jednostavno za postignut. Stoga, u svrhu ergonomije i boljeg
 korisničkog iskustva, će konačno rješenje podržavati i ne standardne ulaze
 podataka.
 
-\subsection{Sučelje komandne linije}
+\subsection{Sučelje naredbenog redaka}
 
-Kroz sučelje komandne linije korisnik može izdvojiti pojedinačnu tablicu i nad
+Kroz sučelje naredbenog redaka korisnik može izdvojiti pojedinačnu tablicu i nad
 njom izvršiti agregacijske funkcije, ili može izdvojiti sve tablice iz nekog
 dokumenta. Time sto je izvoženje agregacijskih funkcija ograničeno na
 pojedinačne tablice se smanjuje kompleksnost konačnog rješenja i olakšava se
@@ -188,10 +189,10 @@ i prva 3 retka.  Prethodno je spomenuto da mora postojati i sučelje za
 \subsection{Grafičko sučelje}
 
 Kroz grafičko sučelje korisnik mora imati sposobnost napraviti sve sto je
-moguće i u sučelju komandne linije. Grafičko sučelje bi trebalo predstavljati
-interaktivni način rada za sučelje komandne linije. Ovakav pristup će konačno
+moguće i u sučelju naredbenog redaka. Grafičko sučelje bi trebalo predstavljati
+interaktivni način rada za sučelje naredbenog redaka. Ovakav pristup će konačno
 rješenje učiniti nepristupačnim korisnicima koji ne znaju koristiti sučelje
-komandne linije, međutim korisnicima koji znaju koristiti to sučelje će
+naredbenog redaka, međutim korisnicima koji znaju koristiti to sučelje će
 olakšati proces učenja korištenja alata.
 
 Postoji mogućnost da se stvori puno grafičko sučelje nad opisanim rješenjem.
@@ -199,7 +200,7 @@ Implementacija punog grafičkog sučelja bi trebala, preko sistemskog sučelja,
 slati naredbe rješenju i koristiti povrate informacije za prikaz vizualnih
 elemenata na ekranu. Alternativno, moguće je i razdvojiti jezgru ovog rješenja
 od koda zaduženog za interakciju s korisnikom i tako rješenje pretvoriti u
-programsku biblioteku. To bi omogućilo da se isti kod koristi da pogoni razna
+programsku knjižnicu. To bi omogućilo da se isti kod koristi da pogoni razna
 sučelja prema korisniku.
 
 \subsection{Podržani tipovi izlaznih podataka}
@@ -215,17 +216,17 @@ prati UNIX filozofiju, ali povećava ergonomičnost rješenja.
 \section{Arhitektura aplikacije}
 
 Kako bi konačno rješenje bilo nezavisno o nekom virtualnom stroju ili o
-programskim bibliotekama potrebno ga je implementirati u programskom jeziku
-koji se može kompajlirati u procesorski kod.
+programskim knjižnicama potrebno ga je implementirati u programskom jeziku
+koji se može prevesti u procesorski kod.
 
-Programske biblioteke se moraju statično povezati u rezultantnu binarnu
+Programske knjižnice se moraju statično povezati u rezultantnu binarnu
 datoteku aplikacije kako korisnik ne bi morao prilagođavati svoju programsku
-okolinu i instalirati dodatne programske biblioteke da pokrene aplikaciju.
+okolinu i instalirati dodatne programske knjižnice da pokrene aplikaciju.
 
-Dinamično povezivanje programskih biblioteka može kod korisnika uzrokovati
-nepredviđene probleme poput ne kompatibilnosti dvaju ili više biblioteka i
-konflikt u verziji biblioteke između dvaju ili vise aplikacija. Osim toga,
-krajnjeg korisnika se tereti s održavanjem instalacije programske biblioteke.
+Dinamično povezivanje programskih knjižnica može kod korisnika uzrokovati
+nepredviđene probleme poput ne kompatibilnosti dvaju ili više knjižnica i
+konflikt u verziji knjižnice između dvaju ili vise aplikacija. Osim toga,
+krajnjeg korisnika se tereti s održavanjem instalacije programske knjižnice.
 
 Rješenje se treba moći lako nadograđivati i proširivati. Prethodno je navedeno
 postojanje mogućnosti da će rješenje morat podržavati ulazne datoteke
@@ -242,12 +243,12 @@ postignuti implementacijom stoga filtera \cite{middleware_wiki}
 implementacijom usmjerivača zahtjeva \cite{router_arhitecture_ieee}
 (eng. router).
 
-Kod middleware stacka ulazni podaci se propuštaju kroz set filtera, svaki filter
+Kod stoga filtera ulazni podaci se propuštaju kroz skup filtera, svaki filter
 obraduje podatke i potom ih predaje sljedećem filteru na obradu. Dok se kod
 routera podaci predaju routeru koji ih onda predaje isključivo jednom modulu na
 obradu.
 
-Middleware stack je fleksibilnije rješenje, za dodavanje novog filtera potrebno
+Stog filtera je fleksibilnije rješenje, za dodavanje novog filtera potrebno
 je implementirati filter i dodati ga na željeno mjesto u stog. Više različitih
 filtera može obrađivati isti podatak tako da nema potreba za stvaranjem
 monolitnih modula ili duplikacijom logike. Routeri, kao sto je prethodno
@@ -256,10 +257,11 @@ implementirati sam modul te proširiti router s kodom koji će određivati hoće
 se ulazni podatak usmjeriti na novi modul.
 
 Konačno rješenje će implementirati
-oba tipa plugin arhitekture. Obrada ulaznih i izlaznih tipova podataka će biti
+oba tipa \textit{plugin arhitekture}. Obrada ulaznih i izlaznih tipova podataka
+će biti
 implementirana pomoću routera, kao se ulazni odnosno izlazni podatak mora
 usmjeriti isključivo jednom modulu na parsiranje ili formatiranje. Obrada
-agregacijskih funkcija biti će implementirana pomoću middleware stacka kako se
+agregacijskih funkcija biti će implementirana pomoću stoga filtera kako se
 radi o procesu u kojem se isti podatak uzastopno obraduje različitim filterima
 koji ga mutiraju, a koji se mogu kombinirati na nepredvidive načine.
 
@@ -269,10 +271,10 @@ koji ga mutiraju, a koji se mogu kombinirati na nepredvidive načine.
 
 Rješenje je implementirano u programskom jeziku Rust \cite{rust_lang_page}.
 
-Rust je sistemski programski jezik (kompajlira se direktno u procesorske
+Rust je sistemski programski jezik (prevodi se direktno u procesorske
 naredbe) funkcijske paradigme s naglaskom na sigurnost izvršavanja programa.
 Program napisan u Rustu može isključivo imati implementacijske greške u pogledu
-algoritamskih grešaka. Kompajler tijekom kompilacije programa (eng. compile
+algoritamskih grešaka. Prevoditelj tijekom kompilacije programa (eng. compile
 time) provjerava postoji li mogućnost stanja utrke (eng. race condition), te
 pristupa li se podacima na način koji ne osigurava njihov integritet tijekom
 izvođenja na vise dretva. Dodatno, jezik implementira koncept predivljivog
@@ -298,23 +300,23 @@ Rust je razvijen od Mozilla organizacije kao alat za izradu Internetskog
 preglednika koji ne će imati sigurnosne propuste. Početni fokus je bio
 napraviti virtualni stroj za JavaScript međutim nakon 2015 se fokus proširio na
 implementaciju HTML parsera, URL parsera, H264 i MP3 dekodera stoga u ekosustavu
-postoji veliki broj programskih biblioteka otvorenog koda koje su inkorporirane
+postoji veliki broj programskih knjižnica otvorenog koda koje su inkorporirane
 u konačno rješenje.
 
-Za kompajliranje izvornog koda se koristi rustc kompajler koji je baziran na
-LLVM projektu \cite{llvm_page}. Uz sam kompajler se koristi alat zvan
+Za prevođenje izvornog koda se koristi rustc prevoditelj koji je baziran na
+LLVM projektu \cite{llvm_page}. Uz sam prevoditelj se koristi alat zvan
 Cargo \cite{cargo_documentation}
-koji je kombinacija managera programskih biblioteka o kojima program ovisi i
+koji je kombinacija managera programskih knjižnica o kojima program ovisi i
 sustava za optimizaciju kompilacije sličnom sustavu
 Make \cite{make_documentation}.
 
-\section{Korištene programske biblioteke}
+\section{Korištene programske knjižnice}
 
 \subsection{html5ever}
 
 html5ever \cite{html5ever_repository} je HTML parser razvijen od Mozille za
 njihov novi browser zvan Servo.
-Cilj biblioteke je napraviti HTML parser bez sigurnosnih propusta kakvi su
+Cilj knjižnice je napraviti HTML parser bez sigurnosnih propusta kakvi su
 prisutni u C implementacijama.
 
 Može parsirati i serijalizirati HTML prema HTML5 specifikaciji, tokenizirati ga,
@@ -323,53 +325,54 @@ HTML-a, naime moderni Internet pretrživati sanitiziraju HTML s web stranica
 koje posjećuju. Stranice često sadrže sintaktičke greške u HTML kodu te kako
 bi ih pretraživač mogao prikazati mora prvo popraviti sintaksu HTML-a,
 odnosno mora ga sanitizirati. Osim sanitizacije, bitno svojstvo ove
-biblioteke je da obraduje podatke kao tok podataka (eng. stream) sto znatno
+knjižnice je da obraduje podatke kao tok podataka (eng. stream) sto znatno
 smanjuje potrošnju memorije.
 
-Ova biblioteka se koristi u konačnom rješenju za parsiranje HTML koda u
+Ova knjižnice se koristi u konačnom rješenju za parsiranje HTML koda u
 internu reprezentaciju tablica.
 
 \subsection{ncurses}
 
-ncurses \cite{ncurses_documentation} je programska biblioteka koja omogućava
+ncurses \cite{ncurses_documentation} je programska knjižnice koja omogućava
 programeru kreaciju
 tekstualnih grafičkih sučelja neovisnih o terminalu na kojem se izvode te
 visoko optimiziranim za korištenje u programskim sučeljima koja se koriste na
 daljinu (npr. pomoću programa ssh).
 
-ncurses je zapravo treća iteracija ove biblioteke. Prva iteracija se zvala
+ncurses je zapravo treća iteracija ove knjižnice. Prva iteracija se zvala
 curses i bila je razvijena na sveučilištu u Californiji - Berkley s namjenom
 da se koristi za tekstualne igre u operativnom sustavu BSD. curses je stekao
 nepredviđenu popularnost sto je ponukalo Bell Labs da 1980. razvije svoju
-verziju biblioteke i integrira ju u operativni sustav System V. Druga
+verziju knjižnice i integrira ju u operativni sustav System V. Druga
 iteracija je bila pcurses, razvijena 1986. od Pavel Curtisa kao besplatna
-verzija curses biblioteke. ncurses je unaprijeđena verzija pcursesa objavljena
+verzija curses knjižnice. ncurses je unaprijeđena verzija pcursesa objavljena
 1993. koja dodaje podršku za izbornike i padajuće izbornike, te je kompatibilna
-s originalnom verzijom curses biblioteke.
+s originalnom verzijom curses knjižnice.
 
-Pomoću ove biblioteke je ostvareno grafičko sučelje rješenja. Omogućava lako
+Pomoću ove knjižnice je ostvareno grafičko sučelje rješenja. Omogućava lako
 stvaranje prozora, crtanje tablica i izradu interaktivnih izbornika. Podržano
 je na svim operativnim sustavim koji zadovoljavaju POSIX standard, te na
 Windowsima (potrebno je instalirati dodatne programske pakete).
 
-Grafičko sučelje koje je implementirano pomoću ove biblioteke je portabilno u
+Grafičko sučelje koje je implementirano pomoću ove knjižnice je portabilno u
 smislu da se ponaša jednako na svim operativnim sustavima, kernelima i
 terminalima. Na modernim terminalima je moguće koristiti miš za selekciju
 izbornika ili dugmadi stoga se rješenje ponaša kao aplikacija s grafičkim
 sučeljem iako je ono zapravo implementirano kao tekst.
 
 U konačnom rješenju se koristi ncurses-rs \cite{ncurses_rs_repository} verzija
-biblioteke koja omotava C biblioteku u Rust kod.
+knjižnice koja omotava C knjižnicu u Rust kod.
 
 \subsection{hyper}
 
-Hyper \cite{hyper_repository} je programska biblioteka za komunikaciju HTTP
+Hyper \cite{hyper_repository} je programska knjižnica za komunikaciju HTTP
 protokolom.
 
 Hyper se smatra modernom i elegantnom apstrakcijom iznad HTTP protokola.
-Nudi direktno sučelje iznad protokola za implementaciju klijenata i serververa.
-Ne ovisi o vanjskim bibliotekama ta je po performancama brze od libcurla
-(biblioteke koja dolazi standardno u velikom broju operativnih sustava).
+Nudi direktno sučelje iznad protokola za implementaciju klijenata i
+poslužitelja.
+Ne ovisi o vanjskim knjižnicama ta je po performancama brze od libcurla
+(knjižnica koja dolazi standardno u velikom broju operativnih sustava).
 
 U konačnom rješenju Hyper se koristi za dohvat podataka sa web stranica.
 
@@ -395,7 +398,7 @@ sudo mv ~/give_me_tables /usr/bin/give_me_tables
 \end{lstlisting}
 
 Alternativno ako korisnik želi pregledati kod aplikacije i uvjeriti se da nije
-izmjenjen, moguće je i kompajlirati aplikaciju na računalu koje će ju izvoditi:
+izmjenjen, moguće je i prevesti aplikaciju na računalu koje će ju izvoditi:
 
 \begin{lstlisting}
 git clone git@github.com:stankec/give_me_tables.git
@@ -410,11 +413,69 @@ mv target/release/give_me_tables /usr/bin/give_me_tables
 
 \section{Uputstva za korištenje rješenja}
 
+Po instalaciji rješenja će korisnik u svojem programskom sučelju
+(npr. terminalu) imati dostupnu naredbu "give\_me\_tables". Pokretanje naredbe
+direktno bez argumenata će ispisati upozorenje sa šturim uputstvima za
+korištenje. Od tuda je moguće vidjeti koje tipove argumenata je moguće
+proslijediti, te koji argumenti su očekivani. Na kraju će nas uputiti da za
+detaljna uputstva proslijedimo zastavicu "--help" ili "-h".
+
+Po ponovno pokretanju rješenja sa zastavicom "--help" prikazat će se detaljna
+uputstva koja izlistavaju ime aplikacije, verziju aplikacije, osobu koja ju
+održava, kratki opis, uzorak unosa podataka, moguće zastavici, njihove kratice
+i čemu služe, te moguće opcije, njihove kratice, čemu služe i kako ih se
+koristi.
+
+Bitno je za napomenuti da aplikacija iznosi opcije "input-file" i "url", te
+argument "INPUT" kao obavezne iako je potrebno definirati samo jednu od
+navedenih opcija.
+
+Postoji nekolicina informativnih zastavica poput "license" koji ispisuje
+licencu po kojom se konačno rješenje može koristiti i distribuirati, potom
+"list-aggregation-functions" koji
+ispisuje sve dostupne agregacijske funkcije i njihove opise, analogno
+agregacijskim funkcijama postoji "list-transformations" koji ispisuje sve
+dostupne transformacije s njihovom opisom. Konačno postoji "list-tables"
+koji će samo ispisati kratki pregled svih postojećih tablica iz ulaznog
+dokumenta. Ako postoji potreba za detaljnim uvidom u ponašanje rješenja moguće
+je proslijediti "verbose" zastavicu do tri puta sto će imati za posljedicu da
+će se ispisivati greške, upozorenja i generalne informacije tokom izvođenja.
+
+Postoji i nekolicina opcija koje utječu na ponašanje samog programa. Npr.
+"input-file" pomoću koje se specificira iz koje datoteke se čitaju ulazni
+podaci, potom "url" koji specificira s kojeg URL-a se čitaju ulazni podati, te
+"output-file" koji specificira u koju datoteku se zapisuje rezultat (ako se ova
+opcija ne navede se rezultat ispise na standardni izlaz).
+
+Opcije namijenjene manipulaciji ulaznih podataka su "aggregation-function" i
+"transformation". One očekuju do 3 argumenta odvojena zarezom (ime funkcije ili
+transformacije, ime stupca i broj retka) koji specificiraju nad kojim podacima
+se funkcija izvodi.
+
+Primjer naredbe za ispisivanje svih postojećih tablica s web stranice
+fer.unizg.hr uz ispisivanje informacija o radu:
+
+\begin{lstlisting}
+give_me_tables -vvv --url https://fer.unizg.hr --list-tables
+\end{lstlisting}
+
+Ako želimo predati podatke kroz standardni ulaz, transponirati tablicu i
+izračunati maksimalnu vrijednost drugog reda i pohraniti rezultat u datoteku
+možemo izvesti sljedeću naredbu
+
+\begin{lstlisting}
+curl -L https://fer.unizg.hr | give_me_tables --transformation "transpose" --aggregation-function "max,A,2" --output-file output.csv
+\end{lstlisting}
+
+Ako želimo pročitati podatke iz datoteke možemo izvesti sljedeću naredbu:
+
+\begin{lstlisting}
+curl -L https://fer.unizg.hr > fer_web.html && give_me_tables -vvv --list-tables --input-file ./fer_web.html
+\end{lstlisting}
+
 
 
 \chapter{Zaključak}
-
-\section{Moguća unapređenja}
 
 Konačno rješenje je zadovoljilo osnovne potrebe zadatka, međutim moguće ga je
 dodatno unaprijediti u budućnosti.
@@ -428,12 +489,10 @@ datoteka kao ulaznih datoteka. Analogno tome, implementacija dodatnih
 izlaznih formata datoteka poput xls, xslx i ods.
 
 Sa strane distribucije rješenja. Za povećanje povjerenja između korisnika i
-distributera bi se kompajlirane binarne datoteke trebale potpisati s GPG
+distributera bi se prevođenje binarne datoteke trebale potpisati s GPG
 privatnim ključem. A za olakšanje instalacije bi se trebao podignuti
-1distribucijski server za apt \cite{apt_wiki}, yum \cite{yum_wiki} i
+distribucijski poslužitelj za apt \cite{apt_wiki}, yum \cite{yum_wiki} i
 pacman \cite{pacman_wiki} programske managere.
-
-\section{Publikacija rješenja}
 
 Rješenje, kao i njegov izvorni kod, je javno objavljeno na sljedećoj
 poveznici \url{https://github.com/stankec/give_me_tables} pod verzijom 3 GNU

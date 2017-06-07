@@ -21,11 +21,13 @@ use std::io::Read;
 
 fn main() {
     let arguments = cli::parser::arguments();
-    println!("{:?}", arguments);
 
     if arguments.clone().print_license() {
         license::print();
+        return;
     }
+
+    println!("{:?}", arguments);
 
     let reader = input_sources::read(arguments.input_source());
 

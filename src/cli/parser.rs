@@ -8,9 +8,10 @@ pub fn arguments() -> Arguments {
         .author("Stanko K. R. <stanko.krtalic@gmail.com>")
         .about("Extract tabular data from documents")
         .after_help(
-r"This program comes with ABSOLUTELY NO WARRANTY; for details type `--license'.
-This is free software, and you are welcome to redistribute it
-under certain conditions; type `--license' for details.")
+r"LICENSE:
+    This program comes with ABSOLUTELY NO WARRANTY; for details type `--license'.
+    This is free software, and you are welcome to redistribute it
+    under certain conditions; type `--license' for details.")
         .arg(Arg::with_name("INPUT")
             .help("Raw input data")
             .overrides_with_all(&[""])
