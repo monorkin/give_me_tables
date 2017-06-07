@@ -464,13 +464,16 @@ izračunati maksimalnu vrijednost drugog reda i pohraniti rezultat u datoteku
 možemo izvesti sljedeću naredbu
 
 \begin{lstlisting}
-curl -L https://fer.unizg.hr | give_me_tables --transformation "transpose" --aggregation-function "max,A,2" --output-file output.csv
+curl -L https://fer.unizg.hr | give_me_tables \
+--transformation "transpose" --aggregation-function "max,A,2" \
+--output-file output.csv
 \end{lstlisting}
 
 Ako želimo pročitati podatke iz datoteke možemo izvesti sljedeću naredbu:
 
 \begin{lstlisting}
-curl -L https://fer.unizg.hr > fer_web.html && give_me_tables -vvv --list-tables --input-file ./fer_web.html
+curl -L https://fer.unizg.hr > fer_web.html && \
+give_me_tables -vvv --list-tables --input-file ./fer_web.html
 \end{lstlisting}
 
 
