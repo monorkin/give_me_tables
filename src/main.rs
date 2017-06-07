@@ -15,12 +15,32 @@ mod agregation_functions;
 mod transformations;
 mod utilities;
 mod cli;
+mod license;
+
+use std::io::Read;
 
 fn main() {
     let arguments = cli::parser::arguments();
     println!("{:?}", arguments);
 
-    let content = input_sources::read(arguments.input_source());
+    if arguments.clone().print_license() {
+        license::print();
+    }
+
+    let reader = input_sources::read(arguments.input_source());
+
+    let mut content = String::new();
+
+    match reader.string {
+        Some(mut buffer) => {
+            buffer.read_to_string(&mut content).unwrap();
+            ()
+        },
+        _ => {
+            content = "".to_string();
+            ()
+        }
+    };
 
     println!("INPUT:\n{}", content);
 }

@@ -7,13 +7,22 @@ pub fn arguments() -> Arguments {
         .version("0.1")
         .author("Stanko K. R. <stanko.krtalic@gmail.com>")
         .about("Extract tabular data from documents")
+        .after_help(
+r"This program comes with ABSOLUTELY NO WARRANTY; for details type `--license'.
+This is free software, and you are welcome to redistribute it
+under certain conditions; type `--license' for details.")
         .arg(Arg::with_name("INPUT")
             .help("Raw input data")
+            .overrides_with_all(&[""])
             .required_unless_one(&[
                 "input-file",
                 "url"
             ])
             .index(1))
+        .arg(Arg::with_name("license")
+            .long("license")
+            .overrides_with_all(&["interactive", "INPUT", "input-file", "url"])
+            .help("Prints the "))
         .arg(Arg::with_name("verbose")
             .short("v")
             .long("verbose")
@@ -38,7 +47,7 @@ pub fn arguments() -> Arguments {
            ])
            .help("Lists all available transformations"))
         .arg(Arg::with_name("list-tables")
-           .short("l")
+           .short("L")
            .long("list-tables")
            .multiple(false)
            .overrides_with_all(&[
@@ -159,6 +168,8 @@ fn convert_to_arguments(matches: ArgMatches) -> Arguments {
     let interactive_mode =
         matches.occurrences_of("interactive") == 1;
 
+    let print_license = matches.occurrences_of("license") == 1;
+
     Arguments::new(
         input,
         output,
@@ -168,7 +179,8 @@ fn convert_to_arguments(matches: ArgMatches) -> Arguments {
         list_tables,
         list_available_aggregation_functions,
         list_available_transformations,
-        interactive_mode
+        interactive_mode,
+        print_license
     )
 }
 

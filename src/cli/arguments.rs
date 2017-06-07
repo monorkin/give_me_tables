@@ -65,7 +65,8 @@ pub struct Arguments {
     list_tables: bool,
     list_available_aggregation_functions: bool,
     list_available_transformations: bool,
-    interactive_mode: bool
+    interactive_mode: bool,
+    print_license: bool
 }
 
 impl Arguments {
@@ -78,7 +79,8 @@ impl Arguments {
         list_tables: bool,
         list_available_aggregation_functions: bool,
         list_available_transformations: bool,
-        interactive_mode: bool
+        interactive_mode: bool,
+        print_license: bool
     ) -> Self {
         Self {
             input: input,
@@ -90,7 +92,8 @@ impl Arguments {
             list_available_aggregation_functions:
                 list_available_aggregation_functions,
             list_available_transformations: list_available_transformations,
-            interactive_mode: interactive_mode
+            interactive_mode: interactive_mode,
+            print_license: print_license
         }
     }
 
@@ -128,5 +131,9 @@ impl Arguments {
 
     pub fn interactive_mode(self) -> bool {
         self.interactive_mode
+    }
+
+    pub fn print_license(self) -> bool {
+        self.print_license
     }
 }

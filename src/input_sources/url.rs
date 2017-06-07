@@ -1,3 +1,14 @@
-pub fn process(url: String) -> String {
-    url
+use std::io::prelude::*;
+use std::io::BufReader;
+use std::io::Read;
+use std::io::Cursor;
+use ::input_sources::Readable;
+use ::input_sources::ReadableType;
+
+pub fn process(url: String) -> Readable {
+    Readable {
+        kind: ReadableType::String,
+        file: None,
+        string: Some(BufReader::new(Cursor::new(url.into_bytes())))
+    }
 }

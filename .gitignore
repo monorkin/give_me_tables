@@ -12,3 +12,6 @@ tags
 
 # Ignore build folder
 target/
+
+# Ignore OS files
+.DS_Store
