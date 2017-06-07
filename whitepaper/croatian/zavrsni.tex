@@ -312,6 +312,23 @@ Make \cite{make_documentation}.
 
 \subsection{html5ever}
 
+html5ever \cite{html5ever_repository} je HTML parser razvijen od Mozille za
+njihov novi browser zvan Servo.
+Cilj biblioteke je napraviti HTML parser bez sigurnosnih propusta kakvi su
+prisutni u C implementacijama.
+
+Može parsirati i serijalizirati HTML prema HTML5 specifikaciji, tokenizirati ga,
+the pretvoriti u objektno stablo. Najbitnija usluga koju nudi je sanitizacija
+HTML-a, naime moderni Internet pretrživati sanitiziraju HTML s web stranica
+koje posjećuju. Stranice često sadrže sintaktičke greške u HTML kodu te kako
+bi ih pretraživač mogao prikazati mora prvo popraviti sintaksu HTML-a,
+odnosno mora ga sanitizirati. Osim sanitizacije, bitno svojstvo ove
+biblioteke je da obraduje podatke kao tok podataka (eng. stream) sto znatno
+smanjuje potrošnju memorije.
+
+Ova biblioteka se koristi u konačnom rješenju za parsiranje HTML koda u
+internu reprezentaciju tablica.
+
 \subsection{ncurses}
 
 ncurses \cite{ncurses_documentation} je programska biblioteka koja omogućava
@@ -340,6 +357,9 @@ smislu da se ponaša jednako na svim operativnim sustavima, kernelima i
 terminalima. Na modernim terminalima je moguće koristiti miš za selekciju
 izbornika ili dugmadi stoga se rješenje ponaša kao aplikacija s grafičkim
 sučeljem iako je ono zapravo implementirano kao tekst.
+
+U konačnom rješenju se koristi ncurses-rs \cite{ncurses_rs_repository} verzija
+biblioteke koja omotava C biblioteku u Rust kod.
 
 \subsection{hyper}
 
