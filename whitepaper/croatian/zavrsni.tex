@@ -43,7 +43,7 @@ ne posjeduje mogućnosti prepoznavanja teksta i tablica iz slika.
 
 JRuby je verzija programskog jezika Ruby namijenjena izvođenju na Java
 virtualnom stroju \cite{java_virtual_machine_specification} (eng. kratica JVM).
-To JRubyju omogućuje korištinje
+To JRubyju omogućuje korištenje
 programskih knjižnice iz ostalih jezika koji se izvršavaju na JVM-u. Tako
 Tabula za parsiranje PDF dokumenata koristi knjižnice JPedal i Apache
 PDFToolbox \cite{apache_pdftoolbox_specification} napisane u programskom
@@ -53,7 +53,7 @@ Interno, aplikacija pretražuje PDF dokument za tabličnim objektima koje potom
 pretvara u CSV zapis i pohranjuje kao datoteku.
 
 Najveće manjkavosti ovog rješenja su ne-interaktivno sučelje naredbenog redaka,
-činjenica da se izvodigg kao zaseban proces (poslužitelj) sto zahtijeva od
+činjenica da se izvodi kao zaseban proces (poslužitelj) sto zahtijeva od
 korisnika
 da koristi internet preglednik i ovisnost o lokalnoj instalaciji JVM-a.
 
@@ -184,7 +184,7 @@ Osim navedenog mora se nuditi sučelje za izlistavanje tablica u dokumentu
 kako bi korisnik mogao odrediti koje tablice želi izdvojiti. Sučelje bi
 trebalo prikazati nekolicinu stupaca tablice (koliko korisniku stane na ekran)
 i prva 3 retka.  Prethodno je spomenuto da mora postojati i sučelje za
-1selekciju tablica koje se treba izdvojiti.
+selekciju tablica koje se treba izdvojiti.
 
 \subsection{Grafičko sučelje}
 
@@ -229,7 +229,7 @@ konflikt u verziji knjižnice između dvaju ili vise aplikacija. Osim toga,
 krajnjeg korisnika se tereti s održavanjem instalacije programske knjižnice.
 
 Rješenje se treba moći lako nadograđivati i proširivati. Prethodno je navedeno
-postojanje mogućnosti da će rješenje morat podržavati ulazne datoteke
+postojanje mogućnosti da će rješenje mora podržavati ulazne datoteke
 drugačijeg tipa od predviđenih HTML datoteka. Isto razmišljanje može se
 primijeniti na izlazne datoteke, te na agregacijske funkcije. Kroz vrijeme će
 se pokazati potreba za dodatnim agregacijskim funkcijama ili tipovima izlaznih
@@ -261,7 +261,7 @@ oba tipa \textit{plugin arhitekture}. Obrada ulaznih i izlaznih tipova podataka
 će biti
 implementirana pomoću routera, kao se ulazni odnosno izlazni podatak mora
 usmjeriti isključivo jednom modulu na parsiranje ili formatiranje. Obrada
-agregacijskih funkcija biti će implementirana pomoću stoga filtera kako se
+agregacijskih funkcija bit će implementirana pomoću stoga filtera kako se
 radi o procesu u kojem se isti podatak uzastopno obraduje različitim filterima
 koji ga mutiraju, a koji se mogu kombinirati na nepredvidive načine.
 
@@ -291,13 +291,13 @@ garbage collector) koji znatno utječu na performanse programa.
 
 Važno je za napomenuti da Rust navedene garancije postiže uvođenjem nekolicine
 novih koncepata. Najbitniji je koncept vlasništva (eng. ownership) pošto utječe
-na sve varijable. Koncept ownershipa zabranjuje korištenje neke varijable kao
+na sve varijable. Koncept vlasništva zabranjuje korištenje neke varijable kao
 argument funkciji ako je ona prethodno bila korištena kao argument drugoj
 funkciji. Potom slijedi koncept posuđivanja (eng. borrowing) koji dozvoljava
 postojanje referenci na varijablu. Svaka varijabla može imati ili beskonačno
 referenci za čitanje ili jednu referencu za čitanje i pisanje. Konačno, koncept
-vremena života (eng. life time). Lifetime određuje u kojem će se trenutku
-dealocirati rezultat funkcije. Lifetime povezuje trenutak dealociranja ulaznih i
+vremena života (eng. life time). Vrijeme života određuje u kojem će se trenutku
+dealocirati rezultat funkcije. \ povezuje trenutak dealociranja ulaznih i
 izlazne reference funkcije. Rust također posuđuje koncepte iz ostalih
 funkcijskih programskih jezika poput ne posjedovanja Null vrijednosti, Maybe
 vrijednosti iz Haskella \cite{haskell_lang_page}, prepoznavanje uzoraka
@@ -381,7 +381,7 @@ poslužitelja.
 Ne ovisi o vanjskim knjižnicama ta je po performancama brze od libcurla
 (knjižnica koja dolazi standardno u velikom broju operativnih sustava).
 
-U konačnom rješenju Hyper se koristi za dohvat podataka sa web stranica.
+U konačnom rješenju Hyper se koristi za dohvat podataka s web stranica.
 
 \section{Uputstva za instalaciju rješenja}
 
@@ -446,7 +446,7 @@ dostupne transformacije s njihovom opisom. Konačno postoji "list-tables"
 koji će samo ispisati kratki pregled svih postojećih tablica iz ulaznog
 dokumenta. Ako postoji potreba za detaljnim uvidom u ponašanje rješenja moguće
 je proslijediti "verbose" zastavicu do tri puta sto će imati za posljedicu da
-će se ispisivati greške, upozorenja i generalne informacije tokom izvođenja.
+će se ispisivati greške, upozorenja i generalne informacije tijekom izvođenja.
 
 Postoji i nekolicina opcija koje utječu na ponašanje samog programa. Npr.
 "input-file" pomoću koje se specificira iz koje datoteke se čitaju ulazni
@@ -521,12 +521,12 @@ izvornom kodu javno objaviti, te štiti načela pokreta za besplatne programe
 
 Proučiti i opisati dostupne sustave za izdvajanje tabličnih podataka iz
 polu-strukturiranih dokumenata kao što su web-stranice ili PDF dokumenti.
-Osmisliti i ostvariti sustav za izdvajanje strukturiranih tabličnih podaka iz
+Osmisliti i ostvariti sustav za izdvajanje strukturiranih tabličnih podataka iz
 navedenih dokumenata s naglaskom na web-stranice.
 Sustav treba izložiti svoje funkcionalnosti koristeći sučelje naredbenog retka
 za koje je potrebno osmisliti skup naredbi za jednostavni interaktivni rad.
 Nadalje, ostvariti i osnovno programsko sučelje sustava. Prikupiti skup
-web-stranica za ispitivanje rada sustava te ocjeniti uspješnost izdvajanja
+web-stranica za ispitivanje rada sustava te ocijeniti uspješnost izdvajanja
 tabličnih podataka s obzirom na složenost strukture ulaznog dokumenta. Opisati
 izgrađeni sustav, navesti upute za postavljanje, načine korištenja, navesti
 literaturu i primljenu pomoć.
