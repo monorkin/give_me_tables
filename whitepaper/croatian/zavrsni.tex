@@ -13,7 +13,7 @@
 
 \maketitle
 
-\zahvala{}
+\zahvala{Hvala Veljku i Klemi na ukazanom povjerenju}
 
 \tableofcontents
 
@@ -214,19 +214,18 @@ prati UNIX filozofiju, ali povećava ergonomičnost rješenja.
 
 \section{Arhitektura aplikacije}
 
-
 Kako bi konačno rješenje bilo nezavisno o nekom virtualnom stroju ili o
 programskim bibliotekama potrebno ga je implementirati u programskom jeziku
-koji se može kompajlirati u procesorski kod ili zapakirati u binarnu datoteku.
+koji se može kompajlirati u procesorski kod.
 
 Programske biblioteke se moraju statično povezati u rezultantnu binarnu
 datoteku aplikacije kako korisnik ne bi morao prilagođavati svoju programsku
 okolinu i instalirati dodatne programske biblioteke da pokrene aplikaciju.
 
 Dinamično povezivanje programskih biblioteka može kod korisnika uzrokovati
-nepredviđene probleme poput ne kompatibilnosti dvaju ili vise biblioteka i
+nepredviđene probleme poput ne kompatibilnosti dvaju ili više biblioteka i
 konflikt u verziji biblioteke između dvaju ili vise aplikacija. Osim toga,
-krajnjeg korisnika se tereti da održava instalaciju programske biblioteke.
+krajnjeg korisnika se tereti s održavanjem instalacije programske biblioteke.
 
 Rješenje se treba moći lako nadograđivati i proširivati. Prethodno je navedeno
 postojanje mogućnosti da će rješenje morat podržavati ulazne datoteke
@@ -236,18 +235,158 @@ se pokazati potreba za dodatnim agregacijskim funkcijama ili tipovima izlaznih
 datoteka.
 
 S toga konačno rješenje mora implementirati arhitekturu koja
-podržava programske dodatke (eng. plugin).
+podržava programske dodatke \cite{plugin_architecture_wiki}
+(eng. plugin). Ovakvu arhitekturu moguće je
+postignuti implementacijom stoga filtera \cite{middleware_wiki}
+(eng. middleware stack) ili
+implementacijom usmjerivača zahtjeva \cite{router_arhitecture_ieee}
+(eng. router).
 
+Kod middleware stacka ulazni podaci se propuštaju kroz set filtera, svaki filter
+obraduje podatke i potom ih predaje sljedećem filteru na obradu. Dok se kod
+routera podaci predaju routeru koji ih onda predaje isključivo jednom modulu na
+obradu.
 
+Middleware stack je fleksibilnije rješenje, za dodavanje novog filtera potrebno
+je implementirati filter i dodati ga na željeno mjesto u stog. Više različitih
+filtera može obrađivati isti podatak tako da nema potreba za stvaranjem
+monolitnih modula ili duplikacijom logike. Routeri, kao sto je prethodno
+navedeno, su manje fleksibilno rješenje. Za dodavanje novog modula potrebno je
+implementirati sam modul te proširiti router s kodom koji će određivati hoće li
+se ulazni podatak usmjeriti na novi modul.
 
+Konačno rješenje će implementirati
+oba tipa plugin arhitekture. Obrada ulaznih i izlaznih tipova podataka će biti
+implementirana pomoću routera, kao se ulazni odnosno izlazni podatak mora
+usmjeriti isključivo jednom modulu na parsiranje ili formatiranje. Obrada
+agregacijskih funkcija biti će implementirana pomoću middleware stacka kako se
+radi o procesu u kojem se isti podatak uzastopno obraduje različitim filterima
+koji ga mutiraju, a koji se mogu kombinirati na nepredvidive načine.
 
 \chapter{Ostvareno rješenje}
 
 \section{Korištene tehnologije}
 
+Rješenje je implementirano u programskom jeziku Rust \cite{rust_lang_page}.
+
+Rust je sistemski programski jezik (kompajlira se direktno u procesorske
+naredbe) funkcijske paradigme s naglaskom na sigurnost izvršavanja programa.
+Program napisan u Rustu može isključivo imati implementacijske greške u pogledu
+algoritamskih grešaka. Kompajler tijekom kompilacije programa (eng. compile
+time) provjerava postoji li mogućnost stanja utrke (eng. race condition), te
+pristupa li se podacima na način koji ne osigurava njihov integritet tijekom
+izvođenja na vise dretva. Dodatno, jezik implementira koncept predivljivog
+životnog vijeka varijabli stoga se programer ne mora ručno brinuti o alokaciji
+i dealokaciji memorije, a ne uvodi se potreba za sakupljačem smeća (eng.
+garbage collector) koji znatno utječu na performanse programa.
+
+Važno je za napomenuti da Rust navedene garancije postiže uvođenjem nekolicine
+novih koncepata. Najbitniji je koncept vlasništva (eng. ownership) pošto utječe
+na sve varijable. Koncept ownershipa zabranjuje korištenje neke varijable kao
+argument funkciji ako je ona prethodno bila korištena kao argument drugoj
+funkciji. Potom slijedi koncept posuđivanja (eng. borrowing) koji dozvoljava
+postojanje referenci na varijablu. Svaka varijabla može imati ili beskonačno
+referenci za čitanje ili jednu referencu za čitanje i pisanje. Konačno, koncept
+vremena života (eng. life time). Lifetime određuje u kojem će se trenutku
+dealocirati rezultat funkcije. Lifetime povezuje trenutak dealociranja ulaznih i
+izlazne reference funkcije. Rust također posuđuje koncepte iz ostalih
+funkcijskih programskih jezika poput ne posjedovanja Null vrijednosti, Maybe
+vrijednosti iz Haskella \cite{haskell_lang_page}, prepoznavanje uzoraka
+(eng. pattern matching) iz Erlanga \cite{erlang_lang_page} i mnoge druge.
+
+Rust je razvijen od Mozilla organizacije kao alat za izradu Internetskog
+preglednika koji ne će imati sigurnosne propuste. Početni fokus je bio
+napraviti virtualni stroj za JavaScript međutim nakon 2015 se fokus proširio na
+implementaciju HTML parsera, URL parsera, H264 i MP3 dekodera stoga u ekosustavu
+postoji veliki broj programskih biblioteka otvorenog koda koje su inkorporirane
+u konačno rješenje.
+
+Za kompajliranje izvornog koda se koristi rustc kompajler koji je baziran na
+LLVM projektu \cite{llvm_page}. Uz sam kompajler se koristi alat zvan
+Cargo \cite{cargo_documentation}
+koji je kombinacija managera programskih biblioteka o kojima program ovisi i
+sustava za optimizaciju kompilacije sličnom sustavu
+Make \cite{make_documentation}.
+
 \section{Korištene programske biblioteke}
 
+\subsection{html5ever}
+
+\subsection{ncurses}
+
+ncurses \cite{ncurses_documentation} je programska biblioteka koja omogućava
+programeru kreaciju
+tekstualnih grafičkih sučelja neovisnih o terminalu na kojem se izvode te
+visoko optimiziranim za korištenje u programskim sučeljima koja se koriste na
+daljinu (npr. pomoću programa ssh).
+
+ncurses je zapravo treća iteracija ove biblioteke. Prva iteracija se zvala
+curses i bila je razvijena na sveučilištu u Californiji - Berkley s namjenom
+da se koristi za tekstualne igre u operativnom sustavu BSD. curses je stekao
+nepredviđenu popularnost sto je ponukalo Bell Labs da 1980. razvije svoju
+verziju biblioteke i integrira ju u operativni sustav System V. Druga
+iteracija je bila pcurses, razvijena 1986. od Pavel Curtisa kao besplatna
+verzija curses biblioteke. ncurses je unaprijeđena verzija pcursesa objavljena
+1993. koja dodaje podršku za izbornike i padajuće izbornike, te je kompatibilna
+s originalnom verzijom curses biblioteke.
+
+Pomoću ove biblioteke je ostvareno grafičko sučelje rješenja. Omogućava lako
+stvaranje prozora, crtanje tablica i izradu interaktivnih izbornika. Podržano
+je na svim operativnim sustavim koji zadovoljavaju POSIX standard, te na
+Windowsima (potrebno je instalirati dodatne programske pakete).
+
+Grafičko sučelje koje je implementirano pomoću ove biblioteke je portabilno u
+smislu da se ponaša jednako na svim operativnim sustavima, kernelima i
+terminalima. Na modernim terminalima je moguće koristiti miš za selekciju
+izbornika ili dugmadi stoga se rješenje ponaša kao aplikacija s grafičkim
+sučeljem iako je ono zapravo implementirano kao tekst.
+
+\subsection{hyper}
+
+Hyper \cite{hyper_repository} je programska biblioteka za komunikaciju HTTP
+protokolom.
+
+Hyper se smatra modernom i elegantnom apstrakcijom iznad HTTP protokola.
+Nudi direktno sučelje iznad protokola za implementaciju klijenata i serververa.
+Ne ovisi o vanjskim bibliotekama ta je po performancama brze od libcurla
+(biblioteke koja dolazi standardno u velikom broju operativnih sustava).
+
+U konačnom rješenju Hyper se koristi za dohvat podataka sa web stranica.
+
 \section{Uputstva za instalaciju rješenja}
+
+Konačno rješenje je moguće preuzeti s poveznice
+\url{https://github.com/stankec/give_me_tables/releases/latest}
+
+Potrebno je preuzeti verziju binarne datoteke koja odgovara arhitekturi i
+kernelu računala na kojem će se program izvoditi. Po preuzimanju potrebno je
+binarnoj datoteci dati pravo izvođenja i preseliti ju u direktorij u kojem
+operativni sustav traži aplikacije.
+
+Konkretan postupak instalacije najnovije inačice rješenja za računalo sa
+64-bitnim procesorom na x86 arhitekturi i operativnim sustavom s Linux kernelom:
+
+\begin{lstlisting}
+curl https://github.com/stankec/give_me_tables\
+/releases/download/latest/\
+give_me_tables-x86_64-linux-gnu > ~/give_me_tables
+chmod +x ~/give_me_tables
+sudo mv ~/give_me_tables /usr/bin/give_me_tables
+\end{lstlisting}
+
+Alternativno ako korisnik želi pregledati kod aplikacije i uvjeriti se da nije
+izmjenjen, moguće je i kompajlirati aplikaciju na računalu koje će ju izvoditi:
+
+\begin{lstlisting}
+git clone git@github.com:stankec/give_me_tables.git
+cd give_me_tables
+curl https://sh.rustup.rs -sSf | sh
+rustup update
+rustup install nightly
+rustup default nightly
+cargo build --release
+mv target/release/give_me_tables /usr/bin/give_me_tables
+\end{lstlisting}
 
 \section{Uputstva za korištenje rješenja}
 
@@ -257,8 +396,33 @@ podržava programske dodatke (eng. plugin).
 
 \section{Moguća unapređenja}
 
+Konačno rješenje je zadovoljilo osnovne potrebe zadatka, međutim moguće ga je
+dodatno unaprijediti u budućnosti.
+
+Prvo i očito unaprjeđenje je implementacija dodatnih agregacijskih funkcija
+poput count, median, mode, sign i drugih, te transformacija poput move i
+reverse.
+
+Potom, prethodno je navedeno potencijalno proširenje na prihvaćanje PDF
+datoteka kao ulaznih datoteka. Analogno tome, implementacija dodatnih
+izlaznih formata datoteka poput xls, xslx i ods.
+
+Sa strane distribucije rješenja. Za povećanje povjerenja između korisnika i
+distributera bi se kompajlirane binarne datoteke trebale potpisati s GPG
+privatnim ključem. A za olakšanje instalacije bi se trebao podignuti
+1distribucijski server za apt \cite{apt_wiki}, yum \cite{yum_wiki} i
+pacman \cite{pacman_wiki} programske managere.
+
 \section{Publikacija rješenja}
 
+Rješenje, kao i njegov izvorni kod, je javno objavljeno na sljedećoj
+poveznici \url{https://github.com/stankec/give_me_tables} pod verzijom 3 GNU
+javne license \cite{gplv3_license}.
+
+GNU javna licenca verzija 3 (skraćeno GPLv3) obvezuje korisnike da ukoliko
+žele komercijalno koristiti rješenje moraju sve promjene koje su napravili na
+izvornom kodu javno objaviti, te štiti načela pokreta za besplatne programe
+\cite{free_software_movement_manifesto} (eng. Free Software Movement)
 
 
 \bibliography{zavrsni}
